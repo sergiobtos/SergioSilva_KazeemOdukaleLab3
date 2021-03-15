@@ -22,7 +22,7 @@ var StudentSchema = new Schema({
     password: {
 		type: String,
 		validate: [
-			(password) => password && password.length > 6,
+			(password) => password && password.length > 3,
 			'Password should be longer'
 		]
 	}
@@ -54,5 +54,3 @@ StudentSchema.set('toJSON', {
 });
 
 mongoose.model('Student', StudentSchema);
-
-//sergio
