@@ -1,4 +1,3 @@
-I did this now 16/03/2021 3:30
 
 Lab Assignment #3 – Designing and implementing a complete web app using MERN stack
 
