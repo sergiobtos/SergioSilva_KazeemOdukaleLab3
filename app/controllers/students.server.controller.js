@@ -26,7 +26,7 @@ const getErrorMessage = function(err) {
 };
 
 exports.create = function (req, res, next){
-    console.log(JSON.stringify(req.body));
+    //console.log(JSON.stringify(req.body));
     var student = new Student(req.body);
     student.save(function(err){
         if(err){
@@ -37,4 +37,54 @@ exports.create = function (req, res, next){
         }
 
     });
+};
+
+exports.authenticate = function(req, res, next){
+	console.log(req.body);
+	const email = req.body.auth.email;
+	const password = req.body.auth.password;
+	console.log(email + " "+password);
+	Student.findOne({email: email}, (err, student) => {
+		if (err) {
+			return next(err);
+		}else{
+			if(bcrypt.compareSync(password, student.password)){
+				const token = jwt.sign({id: student._id, email: email}, jwtKey,
+				{algorithm: 'HS256', expiresIn:jwtExpirySeconds});
+				console.log('token', token);
+				res.cookie('token', token, {maxAge: jwtExpirySeconds * 1000, httpOnly: true});
+				res.status(200).send({screen: student.email});
+				req.student=student;
+				next();
+			}else{
+				res.json({status:"error", message: "Invalid email/password!!",
+				data:null});
+			}
+		}
+	});
+}; 
+
+
+exports.signout = (req, res) =>{
+	res.clearCookie("token");
+	return res.status('200').json({message: "Signed Out"});
+};
+
+exports.welcome = (req, res) => {
+	const token = req.cookies.token;
+	console.log("Welcome controller: "+token);
+	if(!token){
+		return res.status(401).end();
+	}
+	var payload;
+	try{
+		payload = jwt.verify(token, jwtKey);
+	}catch (e){
+		if ( e instanceof jwt.JsonWebTokenError){
+			return res.status(401).end();
+		}
+	return res.status(400).end();
+	}
+
+	res.send(`${payload.email}`);
 };
