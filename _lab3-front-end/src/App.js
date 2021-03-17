@@ -54,9 +54,8 @@ import './App.css';
 //
 
 import CreateStudent from './components/CreateStudent';
-
-
 import Home from './components/Home';
+import SignIn from './components/SignIn';
 
 function App() {
 
@@ -69,14 +68,15 @@ function App() {
             <Nav.Link href="/home">Home</Nav.Link>
             
             <Nav.Link href="/create">Sign Up</Nav.Link>
+            <Nav.Link href="/signin">Sign In</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
     
       <div>          
-          <Route render ={()=> < Home />} path="/home" />
-         
+          <Route render ={()=> < Home />} path="/home" />         
           <Route render ={()=> < CreateStudent />} path="/create" />
+          <Route render ={()=> < SignIn />} path="/signin" />
           
 
       </div>
