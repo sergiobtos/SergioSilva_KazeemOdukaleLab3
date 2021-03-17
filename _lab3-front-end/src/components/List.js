@@ -5,7 +5,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { withRouter } from 'react-router-dom';
 import Login from './SignIn';
 
-function ListStudents(props) {
+function List(props) {
   const [data, setData] = useState([]);
   const [showLoading, setShowLoading] = useState(true);
   const [listError, setListError] = useState(false);
@@ -58,4 +58,4 @@ function ListStudents(props) {
   );
 }
 //
-export default withRouter(ListStudents);
+export default withRouter(List);

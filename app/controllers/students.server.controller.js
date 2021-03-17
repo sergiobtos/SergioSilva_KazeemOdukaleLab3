@@ -109,7 +109,7 @@ exports.requiresLogin = function (req, res, next) {
     next();
 };
 
-exports.listStudents = function (req, res, next) {
+exports.list = function (req, res, next) {
     Student.find({}, function (err, students) {
         if (err) {
             return next(err);

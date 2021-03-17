@@ -12,5 +12,5 @@ module.exports = function(app){
 
     app.get('/welcome', students.welcome);
 
-    app.get("/students", students.requiresLogin, students.listStudents);
+    app.get("/students", students.requiresLogin, students.list);
 }
