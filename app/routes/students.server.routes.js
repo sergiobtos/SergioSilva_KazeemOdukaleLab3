@@ -11,4 +11,6 @@ module.exports = function(app){
     app.get('/signout', students.signout);
 
     app.get('/welcome', students.welcome);
+
+    app.get("/students", students.requiresLogin, students.listStudents);
 }

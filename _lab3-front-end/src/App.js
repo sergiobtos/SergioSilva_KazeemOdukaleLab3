@@ -56,6 +56,7 @@ import './App.css';
 import CreateStudent from './components/CreateStudent';
 import Home from './components/Home';
 import SignIn from './components/SignIn';
+import ListStudents from './components/ListStudents';
 
 function App() {
 
@@ -69,6 +70,7 @@ function App() {
             
             <Nav.Link href="/create">Sign Up</Nav.Link>
             <Nav.Link href="/signin">Sign In</Nav.Link>
+            <Nav.Link href="/listStudents">List of Students</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -77,6 +79,7 @@ function App() {
           <Route render ={()=> < Home />} path="/home" />         
           <Route render ={()=> < CreateStudent />} path="/create" />
           <Route render ={()=> < SignIn />} path="/signin" />
+          <Route render ={()=> < ListStudents />} path="/listStudents" />
           
 
       </div>

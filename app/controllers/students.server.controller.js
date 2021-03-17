@@ -12,7 +12,7 @@ const getErrorMessage = function(err) {
 		switch (err.code) {
 			case 11000:
 			case 11001:
-				message = 'Username already exists';
+				message = 'Email already exists';
 				break;
 			default:
 				message = 'Something went wrong';
@@ -87,4 +87,34 @@ exports.welcome = (req, res) => {
 	}
 
 	res.send(`${payload.email}`);
+};
+
+exports.requiresLogin = function (req, res, next) {
+	const token = req.cookies.token
+	console.log(token)
+	if (!token) {
+	  return res.send({ screen: 'auth' }).end();
+	}
+	var payload;
+	try {
+	  payload = jwt.verify(token, jwtKey)
+	  console.log('in requiresLogin - payload:', payload)
+	  req.id = payload.id;
+	} catch (e) {
+	  if (e instanceof jwt.JsonWebTokenError) {
+		return res.status(401).end()
+	  }
+	  return res.status(400).end()
+	}
+    next();
+};
+
+exports.listStudents = function (req, res, next) {
+    Student.find({}, function (err, students) {
+        if (err) {
+            return next(err);
+        } else {
+            res.json(students);
+        }
+    });
 };
