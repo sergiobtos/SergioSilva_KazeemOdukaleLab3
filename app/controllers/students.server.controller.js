@@ -116,15 +116,16 @@ exports.isSignedIn = (req, res) =>{
 };
 
 exports.requiresLogin = function (req, res, next) {
+	console.log(req.cookies);
 	const token = req.cookies.token
-	console.log(token)
+	//console.log(token)
 	if (!token) {
 	  return res.send({ screen: 'auth' }).end();
 	}
 	var payload;
 	try {
 	  payload = jwt.verify(token, jwtKey)
-	  console.log('in requiresLogin - payload:',payload)
+	  //console.log('in requiresLogin - payload:',payload)
 	  req.id = payload.id;
 	} catch (e) {
 	  if (e instanceof jwt.JsonWebTokenError) {

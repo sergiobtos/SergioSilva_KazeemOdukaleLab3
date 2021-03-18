@@ -14,6 +14,7 @@ module.exports = function(){
     });
 
     require('../app/models/student.server.model');
+    require('../app/models/course.server.model');
 
     return db;
 };
