@@ -25,7 +25,8 @@ var StudentSchema = new Schema({
 			(password) => password && password.length > 3,
 			'Password should be longer'
 		]
-	}
+	},
+	courses: [{type: Schema.Types.ObjectId, ref: 'Course'}]
 });
 
 

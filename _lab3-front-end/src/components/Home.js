@@ -10,8 +10,7 @@ function Home(props)
     return (
         <div>
             <h2> Express - React with CRUD Operations</h2>
-            <p>React front-end calls Express REST API to add, 
-            list, update, or delete a user, create an article, etc.</p>
+            <p>Lab Assignment #3 – Designing and implementing a complete web app using MERN stack</p>
         </div>
     );
 

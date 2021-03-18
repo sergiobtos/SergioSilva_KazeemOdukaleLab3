@@ -10,7 +10,7 @@ function CreateStudent(props) {
   const [student, setStudent] = useState({ _id: '', studentNumber: '', firstName: '', lastName: '', 
                 address: '', city: '', phoneNumber: '', email: '', program: '', username: '', password: '' });
   const [showLoading, setShowLoading] = useState(false);
-  const apiUrl = "http://localhost:3000/create";
+  const apiUrl = "http://localhost:5000/create";
 
   const saveStudent = (e) => {
     setShowLoading(true);
@@ -22,7 +22,7 @@ function CreateStudent(props) {
     axios.post(apiUrl, data)
       .then((result) => {
         setShowLoading(false);
-        props.history.push('/show/' + result.data._id)
+        props.history.push('/signin')
       }).catch((error) => setShowLoading(false));
   };
 

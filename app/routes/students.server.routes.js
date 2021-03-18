@@ -12,5 +12,8 @@ module.exports = function(app){
 
     app.get('/welcome', students.welcome);
 
-    app.get("/students", students.requiresLogin, students.list);
+    app.get('/students', students.requiresLogin, students.list);
+    //app.get('/students', students.list);
+
+    app.get('/read_cookie', students.isSignedIn);
 }

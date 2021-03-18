@@ -29,29 +29,26 @@ exports.create = function (req, res, next){
     //console.log(JSON.stringify(req.body));
     var student = new Student(req.body);
     student.save(function(err){
-        if(err){
-            res.status(400).json('Error: '+ err);
-            return next(err);
+        if(err){ 
+            return res.status(400).send({ message: getErrorMessage(err)});
         }else{
-            res.json('User Added');
+            res.json('Student was registered successfully!');
         }
 
     });
 };
 
 exports.authenticate = function(req, res, next){
-	console.log(req.body);
-	const email = req.body.auth.email;
-	const password = req.body.auth.password;
-	console.log(email + " "+password);
+	const email = req.body.email;
+	const password = req.body.password;
 	Student.findOne({email: email}, (err, student) => {
+		console.log(student);
 		if (err) {
 			return next(err);
 		}else{
 			if(bcrypt.compareSync(password, student.password)){
 				const token = jwt.sign({id: student._id, email: email}, jwtKey,
 				{algorithm: 'HS256', expiresIn:jwtExpirySeconds});
-				console.log('token', token);
 				res.cookie('token', token, {maxAge: jwtExpirySeconds * 1000, httpOnly: true});
 				res.status(200).send({screen: student.email});
 				req.student=student;
@@ -89,26 +86,6 @@ exports.welcome = (req, res) => {
 	res.send(`${payload.email}`);
 };
 
-exports.requiresLogin = function (req, res, next) {
-	const token = req.cookies.token
-	console.log(token)
-	if (!token) {
-	  return res.send({ screen: 'auth' }).end();
-	}
-	var payload;
-	try {
-	  payload = jwt.verify(token, jwtKey)
-	  console.log('in requiresLogin - payload:', payload)
-	  req.id = payload.id;
-	} catch (e) {
-	  if (e instanceof jwt.JsonWebTokenError) {
-		return res.status(401).end()
-	  }
-	  return res.status(400).end()
-	}
-    next();
-};
-
 exports.list = function (req, res, next) {
     Student.find({}, function (err, students) {
         if (err) {
@@ -117,4 +94,41 @@ exports.list = function (req, res, next) {
             res.json(students);
         }
     });
+};
+
+exports.isSignedIn = (req, res) =>{
+	const token = req.cookies.token;
+	if(!token){
+		return res.send({screen: 'auth'}).end();
+	}
+	var payload;
+	try{
+		payload = jwt.verify(token, jwtKey);
+	}catch (e){
+		if (e instanceof jwt.JsonWebTokenError){
+			return res.status(401).end();
+		}
+		return res.status(400).end();
+	}
+	res.status(200).send({screen: payload.email});
+};
+
+exports.requiresLogin = function (req, res, next) {
+	const token = req.cookies.token;
+	console.log(token);
+	if (!token) {
+	  return res.send({ screen: 'auth' }).end();
+	}
+	var payload;
+	try {
+	  payload = jwt.verify(token, jwtKey)
+	  //console.log('in requiresLogin - payload:',payload)
+	  req.id = payload.id;
+	} catch (e) {
+	  if (e instanceof jwt.JsonWebTokenError) {
+		return res.status(401).end()
+	  }
+	  return res.status(400).end()
+	}
+    next();
 };
