@@ -12,5 +12,3 @@ app.listen(5000);
 module.exports = app;
 
 console.log('Server running at http://localhost:5000/');
-
-//sergio

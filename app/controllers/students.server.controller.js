@@ -38,28 +38,30 @@ exports.create = function (req, res, next){
     });
 };
 
-exports.authenticate = function(req, res, next){
-	const email = req.body.email;
-	const password = req.body.password;
+exports.authenticate = function(req, res, next) {
+	const email = req.body.auth.email;
+	const password  = req.body.auth.password;
 	Student.findOne({email: email}, (err, student) => {
-		console.log(student);
-		if (err) {
-			return next(err);
-		}else{
-			if(bcrypt.compareSync(password, student.password)){
-				const token = jwt.sign({id: student._id, email: email}, jwtKey,
-				{algorithm: 'HS256', expiresIn:jwtExpirySeconds});
-				res.cookie('token', token, {maxAge: jwtExpirySeconds * 1000, httpOnly: true});
-				res.status(200).send({screen: student.email});
+			if (err) {
+				return next(err);
+			} else {
+			if(bcrypt.compareSync(password, student.password)) {
+				const token = jwt.sign({ id: student._id, email: student.email }, jwtKey, 
+					{algorithm: 'HS256', expiresIn: jwtExpirySeconds });
+				res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000,httpOnly: true});
+				res.status(200).send({ screen: student.email });
 				req.student=student;
-				next();
-			}else{
-				res.json({status:"error", message: "Invalid email/password!!",
+				next()
+			} else {
+				res.json({status:"error", message: "Invalid email/password!!!",
 				data:null});
 			}
+			
 		}
+		
 	});
 }; 
+
 
 
 exports.signout = (req, res) =>{
@@ -114,15 +116,15 @@ exports.isSignedIn = (req, res) =>{
 };
 
 exports.requiresLogin = function (req, res, next) {
-	const token = req.cookies.token;
-	console.log(token);
+	const token = req.cookies.token
+	console.log(token)
 	if (!token) {
 	  return res.send({ screen: 'auth' }).end();
 	}
 	var payload;
 	try {
 	  payload = jwt.verify(token, jwtKey)
-	  //console.log('in requiresLogin - payload:',payload)
+	  console.log('in requiresLogin - payload:',payload)
 	  req.id = payload.id;
 	} catch (e) {
 	  if (e instanceof jwt.JsonWebTokenError) {

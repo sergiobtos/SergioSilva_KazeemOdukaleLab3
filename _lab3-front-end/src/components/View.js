@@ -35,8 +35,6 @@ function View (props) {
     <div className="App">
       {course !== 'y'
         ? <div>
-            <p>this is the screen{screen}</p>
-            <p>this is the data{data}</p>
             <button onClick={createCourse}>Create Course</button>
             <button onClick={listCourses(data)}>List Courses</button>
 
