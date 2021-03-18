@@ -26,7 +26,7 @@ const getErrorMessage = function(err) {
 };
 
 exports.create = function (req, res, next){
-    //console.log(JSON.stringify(req.body));
+    console.log(JSON.stringify(req.body));
     var student = new Student(req.body);
     student.save(function(err){
         if(err){ 

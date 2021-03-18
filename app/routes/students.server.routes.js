@@ -1,11 +1,9 @@
 var students = require('../../app/controllers/students.server.controller');
-var express = require('express');
-//var router = express.Router();
 
 module.exports = function(app){
 
-    app.get('/students', students.requiresLogin, students.list);
-    //app.get('/students', students.list);
+    //app.get('/students', students.requiresLogin, students.list);
+    app.get('/students', students.list);
 
     app.post('/create', students.create);
 
