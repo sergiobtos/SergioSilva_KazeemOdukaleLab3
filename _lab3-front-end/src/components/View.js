@@ -20,14 +20,15 @@ function View (props) {
   
   const listCourses = (email) => {
 
-    console.log('in lisArticles: ',email);
+    console.log('in lisCourse: ',email);
     //setArticle('n')
 
   }
   //
   const createCourse = () => {
-    console.log('in createArticle')
+    console.log('in createCourse')
     setCourse('y')
+    
 
   }
   //
@@ -40,7 +41,7 @@ function View (props) {
 
             <button onClick={deleteCookie}>Log out</button>
           </div>            
-        : <createCourse screen={screen} setScreen={setScreen} />
+        : <CreateCourse screen={screen} setScreen={setScreen} />
       }
     </div>
   );

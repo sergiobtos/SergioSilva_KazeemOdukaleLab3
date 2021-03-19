@@ -22,7 +22,7 @@ function CreateCourse(props) {
             courseCode: course.courseCode, 
             courseName: course.courseName, 
             section: course.section, 
-            semester: course.section
+            semester: course.semester
         };
         
         axios.post(apiUrl, data)
