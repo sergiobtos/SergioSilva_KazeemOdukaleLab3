@@ -13,7 +13,7 @@ function CreateCourse(props) {
     const [course, setCourse] = useState({ _id: '', courseCode: '', courseName: '', section: '', semester:'' });
     const [showLoading, setShowLoading] = useState(false);
     
-    const apiUrl = "http://localhost:5000/api/createCourse"
+    const apiUrl = "http://localhost:5000/api/courses"
 
     const saveCourse = (e) => {
         setShowLoading(true);
@@ -22,9 +22,10 @@ function CreateCourse(props) {
             courseCode: course.courseCode, 
             courseName: course.courseName, 
             section: course.section, 
-            semester: course.semester
+            semester: course.semester,
+            email : course.email
         };
-        
+        console.log(data);
         axios.post(apiUrl, data)
         .then((result) => {
             setShowLoading(false);
@@ -64,7 +65,11 @@ function CreateCourse(props) {
               <Form.Group>
                 <Form.Label> Semester: </Form.Label>
                 <Form.Control type="number" name="semester" id="semester" placeholder="Enter Semester" value={course.semester} onChange={onChange} />
-              </Form.Group>               
+              </Form.Group>
+              <Form.Group>
+                <Form.Label> Student Email: </Form.Label>
+                <Form.Control type="string" name="email" id="email" placeholder="Student Email" value={course.email} onChange={onChange} />
+              </Form.Group>                
               <Button variant="primary" type="submit">
                 Save Course
               </Button>

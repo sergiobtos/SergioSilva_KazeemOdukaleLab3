@@ -19,11 +19,11 @@ exports.create = function (req, res){
     course.courseName = req.body.courseName;
     course.section = req.body.section;
     course.semester = req.body.semester;
-    console.log(req.body);
+    console.log(req.body.email);
 
     Student.findOne({email: req.body.email}, (err, student) =>{
         if(err){return getErrorMessage(err);}
-        console.log(student._id);
+        console.log("Student found: "+student._id);
         req.id = student._id;
         student.courses.push(course._id);
         student.save();

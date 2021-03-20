@@ -7,7 +7,7 @@ module.exports = function(app){
 
     app.post('/create', students.create);
 
-    app.post('/signin', students.authenticate);
+    app.post('/signin', students.requiresLogin, students.authenticate);
 
     app.get('/signout', students.signout);
 
