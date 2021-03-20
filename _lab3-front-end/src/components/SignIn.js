@@ -17,7 +17,7 @@ function App() {
     console.log(email)
     try {
       const loginData = { auth: { email, password } }
-      const res = await axios.post(apiUrl, loginData);
+      const res = await axios.post(apiUrl, loginData, {withCredentials: true});
       console.log(res.data.auth)
       console.log(res.data.screen)
       if (res.data.screen !== undefined) {

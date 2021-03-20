@@ -35,6 +35,7 @@ module.exports = function () {
     next();
   });
   const corsOptions = {
+    origin: true,
     credentials: true,
   };
   app.use(cors(corsOptions));

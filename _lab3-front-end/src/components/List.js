@@ -13,9 +13,9 @@ function List(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      axios.get(apiUrl)
+      axios.get(apiUrl, {withCredentials: true})
         .then(result => {
-          console.log('result.data:',result.data)
+          console.log('result.data:'+ result.data)
           if(result.data.screen !== 'auth')
           {
             console.log('data in if:', result.data )
