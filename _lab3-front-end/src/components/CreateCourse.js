@@ -8,12 +8,12 @@ import React, { useState } from 'react';
 
 //
 function CreateCourse(props) {
-
+  const email = props.screen;
     console.log('props.screen',props.screen)
-    const [course, setCourse] = useState({ _id: '', courseCode: '', courseName: '', section: '', semester:'' });
+    const [course, setCourse] = useState({ _id: '', courseCode: '', courseName: '', section: '', semester:'', email: '' });
     const [showLoading, setShowLoading] = useState(false);
     
-    const apiUrl = "http://localhost:5000/api/courses"
+    const apiUrl = "http://localhost:3000/api/courses"
 
     //changed code
     const saveCourse = (e) => {
@@ -24,7 +24,7 @@ function CreateCourse(props) {
             courseName: course.courseName, 
             section: course.section, 
             semester: course.semester,
-            email : course.email
+            email : email
         };
         console.log(data);
         axios.post(apiUrl, data)
@@ -43,7 +43,7 @@ function CreateCourse(props) {
     
     return (
         <div>
-        <h2> Create an course </h2>
+        <h2> Create an course {email} </h2>
         {showLoading && 
             <Spinner animation="border" role="status">
             <span className="sr-only">Loading...</span>
@@ -66,11 +66,7 @@ function CreateCourse(props) {
               <Form.Group>
                 <Form.Label> Semester: </Form.Label>
                 <Form.Control type="number" name="semester" id="semester" placeholder="Enter Semester" value={course.semester} onChange={onChange} />
-              </Form.Group>
-              <Form.Group>
-                <Form.Label> Student Email: </Form.Label>
-                <Form.Control type="string" name="email" id="email" placeholder="Student Email" value={course.email} onChange={onChange} />
-              </Form.Group>                
+              </Form.Group>                             
               <Button variant="primary" type="submit">
                 Save Course
               </Button>
@@ -78,8 +74,5 @@ function CreateCourse(props) {
           </Jumbotron>
         </div>
     );
-
-
 }
-
 export default withRouter(CreateCourse);

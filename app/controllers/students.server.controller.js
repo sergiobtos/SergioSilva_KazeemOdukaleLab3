@@ -39,6 +39,7 @@ exports.create = function (req, res, next){
 };
 
 exports.authenticate = function(req, res, next) {
+	console.log(req.body);
 	const email = req.body.auth.email;
 	const password  = req.body.auth.password;
 	Student.findOne({email: email}, (err, student) => {
@@ -55,10 +56,8 @@ exports.authenticate = function(req, res, next) {
 			} else {
 				res.json({status:"error", message: "Invalid email/password!!!",
 				data:null});
-			}
-			
-		}
-		
+			}			
+		}		
 	});
 }; 
 

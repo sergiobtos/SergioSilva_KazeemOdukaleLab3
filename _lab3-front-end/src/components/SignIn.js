@@ -10,14 +10,14 @@ function App() {
   const [screen, setScreen] = useState('auth');
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const apiUrl = "http://localhost:5000/signin";
+  const apiUrl = "http://localhost:3000/signin";
 
   const auth = async () => {
     console.log('calling auth')
     console.log(email)
     try {
       const loginData = { auth: { email, password } }
-      const res = await axios.post(apiUrl, loginData, {withCredentials: true});
+      const res = await axios.post(apiUrl, loginData);
       console.log(res.data.auth)
       console.log(res.data.screen)
       if (res.data.screen !== undefined) {

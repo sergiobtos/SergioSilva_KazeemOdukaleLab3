@@ -10,13 +10,22 @@ function View (props) {
   
   const deleteCookie = async () => {
     try {
-      await axios.get('5000/signout');
+      await axios.get('/signout');
       setScreen('auth');
     } catch (e) {
       console.log(e);
     }
   };
   
+  const verifyCookie = async () => {
+    try {
+      const res = await axios.get('/welcome');
+      console.log(res.data)
+      setData(res.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
   
   const listCourses = (email) => {
 
