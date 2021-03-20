@@ -15,6 +15,7 @@ function CreateCourse(props) {
     
     const apiUrl = "http://localhost:5000/api/courses"
 
+    //changed code
     const saveCourse = (e) => {
         setShowLoading(true);
         e.preventDefault();
