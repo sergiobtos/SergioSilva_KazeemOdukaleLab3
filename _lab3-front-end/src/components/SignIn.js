@@ -7,13 +7,20 @@ import View from './View'
 
 function App() {
 
+  const styles = {
+    color: "red",
+    background: "#0f0",
+    fontSize: "32px"
+};
   const [screen, setScreen] = useState('auth');
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [status, setStatus] = useState();
+  const [message, setMessage] = useState();
   const apiUrl = "http://localhost:3000/signin";
 
   const auth = async () => {
-    console.log('calling auth')
+    console.log('calling auth from the front end');
     console.log(email)
     try {
       const loginData = { auth: { email, password } }
@@ -23,6 +30,9 @@ function App() {
       if (res.data.screen !== undefined) {
         setScreen(res.data.screen);
         console.log(res.data.screen);
+      }else{
+        setMessage(res.data.message);
+        setStatus(res.data.status);
       }
     } catch (e) { 
       console.log(e);
@@ -52,9 +62,9 @@ function App() {
   
   return (
     <div className="App">
-      {screen === 'auth' 
-        ? <div>
-          <label>Email {screen}: </label>
+      {screen === 'auth'? (
+      <div>
+          <label>Email: </label>
           <br/>
           <input type="text" onChange={e => setEmail(e.target.value)} />
           <br/>
@@ -62,10 +72,18 @@ function App() {
           <br/>
           <input type="password" onChange={e => setPassword(e.target.value)} />
           <br/>
+          { 
+            (() => {
+              if(status === 'error') {
+                return (<div><h2 style={styles}> { message } </h2></div>);
+              }
+              })()
+          }
           <button onClick={auth}>Login</button>
         </div>
-        : <View screen={screen} setScreen={setScreen} />
-      }
+        ) : (
+        <View screen={screen} setScreen={setScreen} />
+        )}
     </div>
   );
 }

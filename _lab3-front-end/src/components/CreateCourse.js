@@ -31,8 +31,9 @@ function CreateCourse(props) {
         .then((result) => {
             setShowLoading(false);
             console.log('results from save course:',result.data)
-            props.history.push('/showcourse/' + result.data._id)
-
+            //props.history.push('/showcourse/' + result.data._id)
+            props.history.push('/courses');
+            props.screnn = data.email;
         }).catch((error) => setShowLoading(false));
     };
     //

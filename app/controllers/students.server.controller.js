@@ -43,9 +43,11 @@ exports.authenticate = function(req, res, next) {
 	const email = req.body.auth.email;
 	const password  = req.body.auth.password;
 	Student.findOne({email: email}, (err, student) => {
+		console.log("Student find using email: "+email +" inside of method of log In");
 			if (err) {
 				return next(err);
 			} else {
+			console.log("Password compare result is: " + bcrypt.compareSync(password, student.password));
 			if(bcrypt.compareSync(password, student.password)) {
 				const token = jwt.sign({ id: student._id, email: student.email }, jwtKey, 
 					{algorithm: 'HS256', expiresIn: jwtExpirySeconds });
