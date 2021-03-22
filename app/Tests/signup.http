@@ -1,7 +1,7 @@
 POST http://localhost:5000/create
 Content-Type: application/json
 
-{   "studentNumber" : 2,
+{   "studentNumber" : 1,
     "firstName" : "Sergio",
     "lastName" : "Silva",
  	"address" : "test",

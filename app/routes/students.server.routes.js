@@ -14,4 +14,6 @@ module.exports = function(app){
     app.get('/welcome', students.welcome);
 
     app.get('/read_cookie', students.isSignedIn);
+
+    app.get('/api/coursesByStudent/:studentId', students.requiresLogin,students.listCoursesByStudent);
 };

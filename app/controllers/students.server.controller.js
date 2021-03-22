@@ -1,4 +1,5 @@
 const Student = require('mongoose').model('Student');
+const Course = require('mongoose').model('Course');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const config = require('../../config/config');
@@ -25,9 +26,12 @@ const getErrorMessage = function(err) {
 	return message;
 };
 
-exports.create = function (req, res, next){
+exports.create = async function (req, res, next){
+	const saltPassword = await bcrypt.genSalt(10);
     console.log(JSON.stringify(req.body));
     var student = new Student(req.body);
+	const securePassword = await bcrypt.hash(student.password,saltPassword );
+	student.password = securePassword;
     student.save(function(err){
         if(err){ 
             return res.status(400).send({ message: getErrorMessage(err)});
@@ -48,6 +52,7 @@ exports.authenticate = function(req, res, next) {
 				return next(err);
 			} else {
 			console.log("Password compare result is: " + bcrypt.compareSync(password, student.password));
+		
 			if(bcrypt.compareSync(password, student.password)) {
 				const token = jwt.sign({ id: student._id, email: student.email }, jwtKey, 
 					{algorithm: 'HS256', expiresIn: jwtExpirySeconds });
@@ -96,6 +101,32 @@ exports.list = function (req, res, next) {
         } else {
             res.json(students);
         }
+    });
+};
+
+exports.listCoursesByStudent = function (req, res, next) {
+	const email = "s@hotmail.com";
+	var coursesFound= [];
+    Student.findOne({email: email}, function (err, student) {
+        if (err) 
+			{
+				return next(err);
+			} 
+		else 
+			{
+				for(var i=0; i < student.courses.length; i++)
+				{
+					id = student.courses[i];
+					Course.findOne({_id : id}, async function(err, course){
+							if(err) return (err);
+							if(!course) return new Error("Any course found");
+							await coursesFound.push(course);
+							console.log("Dentro: "+coursesFound.length);
+						});	
+					console.log("fora do findONe: "+coursesFound.length);
+				}
+				res.json(coursesFound);
+			}
     });
 };
 

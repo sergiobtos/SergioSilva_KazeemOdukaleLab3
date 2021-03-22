@@ -26,6 +26,7 @@ exports.create = function (req, res){
         console.log("Student found: "+student._id);
         req.id = student._id;
         course.creator = student._id;
+        console.log("Line 29 : "+course.creator);
         student.courses.push(course._id);
         student.save();
     }).then(function(){
@@ -35,6 +36,7 @@ exports.create = function (req, res){
                    message: getErrorMessage(err)
                });
            }else{
+               console.log("Final object of course: "+course);
                res.status(200).json(course);
            }
        }); 

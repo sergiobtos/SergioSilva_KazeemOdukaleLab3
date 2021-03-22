@@ -21,8 +21,10 @@ var StudentSchema = new Schema({
     program: String,
     password: {
 		type: String,
+		allowNull: false,
+		comment: "null",
 		validate: [
-			(password) => password && password.length > 3,
+			(password) => password && password.length > 1,
 			'Password should be longer'
 		]
 	},
@@ -38,14 +40,15 @@ StudentSchema.virtual('fullName').get(function() {
 	this.lastName = splitName[1] || '';
 });
 
-StudentSchema.pre('save', function(next){
-	this.password = bcrypt.hashSync(this.password, saltRounds);
+/*StudentSchema.pre('save', function(next){
+	bcrypt.hashSync(this.password, saltRounds, (err, hash) =>{
+		this.password = hash;
+		console.log(this.password);
+	});	
 	next();
-});
+});*/
 
 StudentSchema.methods.authenticate = function(password) {
-	//compare the hashed password of the database 
-	//with the hashed version of the password the user enters
 	return this.password === bcrypt.hashSync(password, saltRounds);
 };
 
