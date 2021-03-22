@@ -9,7 +9,8 @@ module.exports = function(app){
 
     app.route('/api/courses/:courseId')
     .get(course.read)
-    .delete(student.requiresLogin, course.delete);
+    .put(student.requiresLogin, course.hasAuthorization, course.update)
+    .delete(student.requiresLogin,course.hasAuthorization, course.delete);
 
     app.param('courseId', course.courseById);
 };

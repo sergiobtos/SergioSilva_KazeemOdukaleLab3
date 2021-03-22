@@ -66,6 +66,24 @@ exports.read = function(req, res){
     res.status(200).json(req.course);
 };
 
+exports.update = function (req, res) {
+    console.log('in update:', req.course)
+    const course = req.course;
+    course.courseCode = req.body.courseCode;
+    course.courseName = req.body.courseName;
+    course.section = req.body.section;
+    course.semester = req.body.semester;
+    course.save((err) => {
+        if (err) {
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        } else {
+            res.status(200).json(course);
+        }
+    });
+};
+
 exports.delete = function (req, res){
     const course = req.course;
     course.remove((err)=>{
@@ -77,4 +95,17 @@ exports.delete = function (req, res){
             res.status(200).json(course);
         }
     });
+};
+
+exports.hasAuthorization = function (req, res, next) {
+    console.log('in hasAuthorization - creator: ',req.course.creator)
+    console.log('in hasAuthorization - student: ',req._id)
+
+
+    if (req.course.creator._id !== req._id) {
+        return res.status(403).send({
+            message: 'Student is not authorized'
+        });
+    }
+    next();
 };

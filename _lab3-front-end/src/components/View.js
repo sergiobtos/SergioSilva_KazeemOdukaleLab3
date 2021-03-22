@@ -30,7 +30,7 @@ function View (props) {
   const listCourses = (email) => {
 
     console.log('in lisCourse: ',email);
-    //setArticle('n')
+    setCourse('n')
 
   }
   //

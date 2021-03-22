@@ -38,7 +38,7 @@ function ShowCourse(props) {
     axios.delete(apiUrl, course)
       .then((result) => {
         setShowLoading(false);
-        props.history.push('/listcourses')
+        props.history.push('/courses')
       }).catch((error) => setShowLoading(false));
   };
 
