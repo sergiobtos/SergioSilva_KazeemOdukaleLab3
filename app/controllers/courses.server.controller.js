@@ -25,6 +25,7 @@ exports.create = function (req, res){
         if(err){return getErrorMessage(err);}
         console.log("Student found: "+student._id);
         req.id = student._id;
+        course.creator = student._id;
         student.courses.push(course._id);
         student.save();
     }).then(function(){
@@ -43,6 +44,7 @@ exports.create = function (req, res){
 exports.list = function(req, res){
     Course.find().sort("courseCode").exec((err, courses)=>{
         if(err){
+            console.log(courses);
             return res.status(400).send({
                 message: getErrorMessage(err),
             });

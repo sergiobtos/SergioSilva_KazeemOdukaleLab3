@@ -12,5 +12,6 @@ module.exports = function(app){
     .put(student.requiresLogin, course.hasAuthorization, course.update)
     .delete(student.requiresLogin,course.hasAuthorization, course.delete);
 
+
     app.param('courseId', course.courseById);
 };

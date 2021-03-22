@@ -1,0 +1,13 @@
+
+### Get All Courses
+GET http://localhost:5000/api/courses
+Content-Type: application/json
+
+### Get Course By courseID
+GET http://localhost:5000/api/courses/6058c17a33ae204dd0322c66
+Content-Type: application/json
+
+
+### Get course by Student creatorId
+GET http://localhost:5000/api/courses/6058c17a33ae204dd0322c66
+Content-Type: application/json

@@ -1,0 +1,13 @@
+POST http://localhost:5000/create
+Content-Type: application/json
+
+{   "studentNumber" : 2,
+    "firstName" : "Sergio",
+    "lastName" : "Silva",
+ 	"address" : "test",
+ 	"city": "test",
+    "phoneNumber": 6475737563,
+    "email": "s@hotmail.com",
+    "program": "IT",
+    "password": "admin"
+}
