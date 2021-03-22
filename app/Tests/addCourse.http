@@ -2,8 +2,8 @@
 POST http://localhost:5000/api/courses
 Content-Type: application/json
 
-{   "courseCode" : 3,
-    "courseName" : "COMP303",
+{   "courseCode" : 2,
+    "courseName" : "COMP302",
     "section" : 1,
  	"semester" : 1,
     "email": "s@hotmail.com"

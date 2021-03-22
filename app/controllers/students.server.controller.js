@@ -104,30 +104,23 @@ exports.list = function (req, res, next) {
     });
 };
 
-exports.listCoursesByStudent = function (req, res, next) {
+exports.listCoursesByStudent = async function (req, res, next) {
 	const email = "s@hotmail.com";
-	var coursesFound= [];
-    Student.findOne({email: email}, function (err, student) {
-        if (err) 
-			{
-				return next(err);
-			} 
-		else 
-			{
-				for(var i=0; i < student.courses.length; i++)
-				{
-					id = student.courses[i];
-					Course.findOne({_id : id}, async function(err, course){
-							if(err) return (err);
-							if(!course) return new Error("Any course found");
-							await coursesFound.push(course);
-							console.log("Dentro: "+coursesFound.length);
-						});	
-					console.log("fora do findONe: "+coursesFound.length);
-				}
-				res.json(coursesFound);
+	try{
+		const student = await Student.findOne({email});
+		let coursesFound = [];
+		for(let courseId of student.courses){
+			const course = await Course.findOne({ _id : courseId});
+			if(course){
+				coursesFound.push(course);
 			}
-    });
+		}
+		if(!coursesFound.length) return new Error("Any course found");
+		res.json(coursesFound);
+	}catch(err){
+		return next(err);
+	}
+    
 };
 
 exports.isSignedIn = (req, res) =>{
