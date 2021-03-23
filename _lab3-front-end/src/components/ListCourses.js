@@ -7,22 +7,30 @@ import SigIn from './SignIn';
 
 function ListCourses(props) {
   const [data, setData] = useState([]);
+  const [message, setMessage] = useState()
   const [showLoading, setShowLoading] = useState(true);
   const apiUrl = "http://localhost:3000/api/courses";
 
   useEffect(() => {
-    setShowLoading(false);
+    setShowLoading(true);
+    setMessage('Buscando dados do servidor')
     const fetchData = async () => {
       axios(apiUrl)
         .then(result => {
-          console.log('result.data:',result.data)
+
+            if (result.data.length === 0 ) {
+              setMessage('Não existe curso cadastrado!')
+            }
+
             setData(result.data);
             setShowLoading(false);
         }).catch((error) => {
-          console.log('error in fetchData:', error)
+
+          setMessage(error)
         });
       };  
     fetchData();
+
   }, []);
 
   const showDetail = (id) => {
@@ -33,19 +41,19 @@ function ListCourses(props) {
 
   return (
     <div>
-      { data.length !== 0 ?
-        <div>
-          {showLoading && <Spinner animation="border" role="status">
-            <span className="sr-only">Loading...</span>
-          </Spinner> }
-          <ListGroup>
-            {data.map((item, idx) => (
-              <ListGroup.Item key={idx} action onClick={() => { showDetail(item._id) }}>{item.courseName}</ListGroup.Item>
-            ))}
-          </ListGroup>
-        </div>
-        : < SigIn />
+      {
+        data && data.length === 0 
+          ? <p>{ message }</p>
+          : <ListGroup>
+              {
+                data.map((item, idx) => {
+                  return <ListGroup.Item key={idx} action onClick={() => { showDetail(item._id) }}>{item.courseName}</ListGroup.Item>
+                })
+              }
+            </ListGroup>
+
       }
+
     </div>
 
   );

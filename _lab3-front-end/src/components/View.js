@@ -1,4 +1,6 @@
 import CreateCourse from './CreateCourse';
+import ListCourses from './ListCourses'
+
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -6,7 +8,7 @@ function View (props) {
   
   const { screen, setScreen } = props;
   const [data, setData] = useState();
-  const [course, setCourse] = useState('');
+  const [course, setCourse] = useState();
   
   const deleteCookie = async () => {
 
@@ -22,9 +24,6 @@ function View (props) {
 
       });
 
-
-      
-
   };
   
   const verifyCookie = async () => {
@@ -37,10 +36,13 @@ function View (props) {
     }
   }
   
-  const listCourses = (email) => {
+  const listCourses = async (email) => {
 
-    console.log('in lisCourse: ',email);
-    // setCourse('n')
+    setCourse('n')
+
+
+
+    console.log('sfjkzkfj', course)
 
   }
   //
@@ -53,12 +55,15 @@ function View (props) {
   //
   return (
     <div className="App">
+      <button onClick={createCourse}>Create Course</button>
+      <button onClick={listCourses}>List Courses</button>
+      <button onClick={deleteCookie}>Log out</button>
+
       {course !== 'y'
         ? <div>
-            <button onClick={createCourse}>Create Course</button>
-            <button onClick={listCourses(data)}>List Courses</button>
+            
+            <ListCourses screen={screen} />
 
-            <button onClick={deleteCookie}>Log out</button>
           </div>            
         : <CreateCourse screen={screen} />
       }
