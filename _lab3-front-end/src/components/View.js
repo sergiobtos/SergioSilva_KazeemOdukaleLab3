@@ -9,12 +9,22 @@ function View (props) {
   const [course, setCourse] = useState('');
   
   const deleteCookie = async () => {
-    try {
-      await axios.get('/signout');
-      setScreen('auth');
-    } catch (e) {
-      console.log(e);
-    }
+
+      axios.get('/signout').then(res => {
+
+        localStorage.removeItem('email')
+
+        setScreen('auth')
+
+      }).catch(err => {
+        
+        console.log(err)
+
+      });
+
+
+      
+
   };
   
   const verifyCookie = async () => {
@@ -30,7 +40,7 @@ function View (props) {
   const listCourses = (email) => {
 
     console.log('in lisCourse: ',email);
-    setCourse('n')
+    // setCourse('n')
 
   }
   //
@@ -50,7 +60,7 @@ function View (props) {
 
             <button onClick={deleteCookie}>Log out</button>
           </div>            
-        : <CreateCourse screen={screen} setScreen={setScreen} />
+        : <CreateCourse screen={screen} />
       }
     </div>
   );

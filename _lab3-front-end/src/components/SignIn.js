@@ -21,45 +21,40 @@ function SignIn() {
   const apiUrl = "http://localhost:3000/signin";
 
   const auth = async () => {
-    console.log('calling auth from the front end');
-    console.log(email);
-    try {
-      const loginData = { auth: { email, password } }
-      const res = await axios.post(apiUrl, loginData);
-      console.log("Line 28 Displaying response from login: "+ res.data.auth);
-      console.log("Line 29 of auth method = "+ res.data.screen);
-      console.log(res.data.screen !== undefined);
-      if (res.data.screen !== undefined) {
-        setScreen(res.data.screen);
-        console.log(res.data.screen);
-      }else{
-        setMessage(res.data.message);
-        setStatus(res.data.status);
-      }
-    } catch (e) { 
-      console.log(e);
-    }
-  
+
+    const loginData = { auth: { email, password } }
+
+    axios.post(apiUrl, loginData).then(res => {
+
+      localStorage.setItem('email', res.data.screen)
+
+      setScreen(res.data.screen);
+
+    }).catch(error => {
+
+      console.log(error)
+
+    })
+
   };
   
-  const readCookie = async () => {
-    try {
-      console.log('--- in readCookie function ---');
-      //
-      const res = await axios.get('/read_cookie');
-      console.log("Response of readCookie: " +JSON.stringify(res)) ;
-      console.log(res.data.screen !== undefined);
-      if (res.data.screen !== undefined) {
-        setScreen(res.data.screen);
-        console.log("Line 51: "+res.data.screen)
-      }
-    } catch (e) {
+  const readCookie = () => {
+
+    const auth = localStorage.getItem('email')
+
+    if (auth) {
+      setScreen(auth);
+    } else {
       setScreen('auth');
-      console.log(e);
-    }
+    } 
+
   };
+
+
   useEffect(() => {
-    readCookie().then(res=>console.log("UseEffect response: "+res));
+
+    readCookie()
+
   }, []);
   
   return (
