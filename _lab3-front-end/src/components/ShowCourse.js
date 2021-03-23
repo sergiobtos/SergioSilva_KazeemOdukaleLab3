@@ -6,9 +6,9 @@ import Button from 'react-bootstrap/Button';
 import { withRouter } from 'react-router-dom';
 
 function ShowCourse(props) {
-  const email = props.screen;
-  console.log('props.match.params',props.match.params.id)
+
   const [data, setData] = useState({});
+  const [email, setEmail] = useState();
   const [showLoading, setShowLoading] = useState(true);
   const apiUrl = "http://localhost:3000/api/courses/" + props.match.params.id;
 
@@ -17,6 +17,8 @@ function ShowCourse(props) {
     const fetchData = async () => {
       const result = await axios(apiUrl);
       console.log('results from courses',result.data);
+
+      setEmail(localStorage.getItem('email'))
 
       setData(result.data);
       setShowLoading(false);
