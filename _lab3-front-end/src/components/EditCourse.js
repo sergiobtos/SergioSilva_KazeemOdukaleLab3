@@ -28,8 +28,15 @@ function EditCourse(props) {
   const updateCourse = (e) => {
     setShowLoading(true);
     e.preventDefault();
-    const data = { courseCode: course.courseCode, courseCode: course.courseCode, 
-        section: course.section, semester: course.semester };
+    const data = { 
+      courseCode: course.courseCode, 
+      courseName: course.courseName, 
+      section: course.section, 
+      semester: course.semester 
+    };
+
+      console.log('dados', data)
+
     axios.put(apiUrl, data)
       .then((result) => {
         console.log('after calling put to update',result.data )

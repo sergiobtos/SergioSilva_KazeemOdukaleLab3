@@ -75,8 +75,8 @@ exports.read = function(req, res){
 };
 
 exports.update = function (req, res) {
-    console.log('in update:', req.course)
-    const course = req.course;
+    console.log('in updsdsfgzdfgdxfxdfgxdate:', req.course)
+    let course = req.course;
     course.courseCode = req.body.courseCode;
     course.courseName = req.body.courseName;
     course.section = req.body.section;
@@ -94,19 +94,23 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res){
     const course = req.course;
-    Student.findByIdAndUpdate(course.creator,
-        {$pull: { 'courses': {$in: course._id}}}, function(err, model){
-            if(err) console.log(err);
-            console.log(model);
-        }).then(course.remove((err)=>{
-            if(err){
-                return res.status(400).send({
-                    message: getErrorMessage(err)
+
+    course.remove((err)=>{
+        if(err){
+            return res.status(400).send({
+                message: getErrorMessage(err)
+            });
+        }else{
+            Student.findByIdAndUpdate(course.creator,
+                {$pull: { 'courses': {$in: course._id}}}, function(err, model){
+                    if(err) console.log(err);
+                    console.log(model);
                 });
-            }else{
-                res.status(200).json(course);
-            }
-        }));
+            res.status(200).json(course);
+        }
+    })
+
+    
     
 };
 
