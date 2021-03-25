@@ -40,14 +40,6 @@ StudentSchema.virtual('fullName').get(function() {
 	this.lastName = splitName[1] || '';
 });
 
-/*StudentSchema.pre('save', function(next){
-	bcrypt.hashSync(this.password, saltRounds, (err, hash) =>{
-		this.password = hash;
-		console.log(this.password);
-	});	
-	next();
-});*/
-
 StudentSchema.methods.authenticate = function(password) {
 	return this.password === bcrypt.hashSync(password, saltRounds);
 };

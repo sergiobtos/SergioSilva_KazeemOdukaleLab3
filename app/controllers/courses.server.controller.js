@@ -57,13 +57,17 @@ exports.list = function(req, res){
 };
 
 exports.courseById = function(req, res, next, id){
-    Course.findById(id).exec((err, course)=>{
-        if(err) return next(err);
-        if(!course) return next(new Error("Course not found " + id));
-        req.course = course;
-        console.log("Controller CourseById: "+ req.course);
-        next();
-    });
+    if(id){
+        Course.findById(id).exec((err, course)=>{
+            if(err) return next(err);
+            if(!course) return next(new Error("Course not found " + id));
+            req.course = course;
+            next();
+        });
+    }else{
+        res.status(400);
+    }
+    
 };
 
 exports.read = function(req, res){
@@ -90,21 +94,26 @@ exports.update = function (req, res) {
 
 exports.delete = function (req, res){
     const course = req.course;
-    course.remove((err)=>{
-        if(err){
-            return res.status(400).send({
-                message: getErrorMessage(err)
-            });
-        }else{
-            res.status(200).json(course);
-        }
-    });
+    Student.findByIdAndUpdate(course.creator,
+        {$pull: { 'courses': {$in: course._id}}}, function(err, model){
+            if(err) console.log(err);
+            console.log(model);
+        }).then(course.remove((err)=>{
+            if(err){
+                return res.status(400).send({
+                    message: getErrorMessage(err)
+                });
+            }else{
+                res.status(200).json(course);
+            }
+        }));
+    
 };
 
 exports.hasAuthorization = function (req, res, next) {
-    console.log('in hasAuthorization - creator: ',req.course.creator)
-    console.log('in hasAuthorization - student: ',req._id)
-
+    //console.log('in hasAuthorization - creator: ',req.course.creator)
+    //console.log('in hasAuthorization - student: ',req._id)
+    console.log('has authorization: '+req)
 
     if (req.course.creator._id !== req._id) {
         return res.status(403).send({

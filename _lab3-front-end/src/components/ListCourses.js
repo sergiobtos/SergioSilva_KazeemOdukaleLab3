@@ -13,13 +13,13 @@ function ListCourses(props) {
 
   useEffect(() => {
     setShowLoading(true);
-    setMessage('Buscando dados do servidor')
+    setMessage('Searching results in the database')
     const fetchData = async () => {
       axios(apiUrl)
         .then(result => {
 
             if (result.data.length === 0 ) {
-              setMessage('Não existe curso cadastrado!')
+              setMessage('No course found in database!')
             }
 
             setData(result.data);
@@ -45,9 +45,10 @@ function ListCourses(props) {
         data && data.length === 0 
           ? <p>{ message }</p>
           : <ListGroup>
+            <h1> List of All Courses in Database</h1>
               {
                 data.map((item, idx) => {
-                  return <ListGroup.Item key={idx} action onClick={() => { showDetail(item._id) }}>{item.courseName}</ListGroup.Item>
+                  return <ListGroup.Item key={idx} action onClick={() => { showDetail(item._id) }}>{idx+1} - Course Code: { item.courseCode} ({item.courseName})</ListGroup.Item>
                 })
               }
             </ListGroup>
