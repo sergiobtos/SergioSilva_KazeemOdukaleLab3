@@ -51,6 +51,6 @@ function App() {
 
   );
 }
-//<Route render ={()=> < App />} path="/" />
+
 export default App;
 

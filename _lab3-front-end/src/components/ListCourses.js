@@ -10,6 +10,9 @@ function ListCourses(props) {
   const [message, setMessage] = useState()
   const [showLoading, setShowLoading] = useState(true);
   const apiUrl = "http://localhost:3000/api/courses";
+  
+  let email = localStorage.getItem('email')
+
 
   useEffect(() => {
     setShowLoading(true);
@@ -45,10 +48,10 @@ function ListCourses(props) {
         data && data.length === 0 
           ? <p>{ message }</p>
           : <ListGroup>
-            <h1> List of All Courses in Database</h1>
+            <h1> List of Courses from {email}</h1>
               {
                 data.map((item, idx) => {
-                  return <ListGroup.Item key={idx} action onClick={() => { showDetail(item._id) }}>{idx+1} - Course Code: { item.courseCode} ({item.courseName})</ListGroup.Item>
+                  return <ListGroup.Item key={idx} action onClick={() => { showDetail(item._id) }}>{idx+1} - Course Code: { item.courseCode}    Course Name: {item.courseName}</ListGroup.Item>
                 })
               }
             </ListGroup>

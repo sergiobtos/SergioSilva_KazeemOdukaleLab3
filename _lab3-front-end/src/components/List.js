@@ -15,7 +15,7 @@ function List(props) {
     const fetchData = async () => {
       axios.get(apiUrl, {withCredentials: true})
         .then(result => {
-          console.log('result.data:'+ result.data)
+          console.log('result.data:'+ result.data.screen)
           if(result.data.screen !== 'auth')
           {
             console.log('data in if:', result.data )

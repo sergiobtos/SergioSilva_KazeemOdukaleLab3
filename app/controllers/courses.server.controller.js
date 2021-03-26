@@ -19,15 +19,13 @@ exports.create = function (req, res){
     course.courseName = req.body.courseName;
     course.section = req.body.section;
     course.semester = req.body.semester;
-    console.log(req.body.email);
 
     Student.findOne({email: req.body.email}, (err, student) =>{
         if(err){return getErrorMessage(err);}
-        console.log("Student found: "+student._id);
         req.id = student._id;
         course.creator = student._id;
-        console.log("Line 29 : "+course.creator);
         student.courses.push(course._id);
+        console.log("Course line 28: ",course);
         student.save();
     }).then(function(){
        course.save((err)=>{
@@ -36,15 +34,17 @@ exports.create = function (req, res){
                    message: getErrorMessage(err)
                });
            }else{
-               console.log("Final object of course: "+course);
+               console.log("Course para enviar no response: "+ course)
                res.status(200).json(course);
            }
-       }); 
+       });
     });
 };
 
 exports.list = function(req, res){
-    Course.find().sort("courseCode").exec((err, courses)=>{
+    const studentId = req.cookies.studentId;
+
+    Course.find({creator: studentId}).sort("courseCode").exec((err, courses)=>{
         if(err){
             console.log(courses);
             return res.status(400).send({

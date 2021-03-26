@@ -1,5 +1,5 @@
 import CreateCourse from './CreateCourse';
-import ListCourses from './ListCourses'
+import ListCourses from './ListCourses';
 
 import React, { useState } from 'react';
 import axios from 'axios';
@@ -29,7 +29,6 @@ function View (props) {
   const verifyCookie = async () => {
     try {
       const res = await axios.get('/welcome');
-      console.log(res.data)
       setData(res.data);
     } catch (e) {
       console.log(e);
@@ -37,19 +36,11 @@ function View (props) {
   }
   
   const listCourses = async (email) => {
-
     setCourse('n')
-
-
-
-    console.log('sfjkzkfj', course)
-
   }
   //
   const createCourse = () => {
-    console.log('in createCourse')
     setCourse('y')
-    
 
   }
   //

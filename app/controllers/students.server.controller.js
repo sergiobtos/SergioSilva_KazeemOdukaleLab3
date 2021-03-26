@@ -54,6 +54,7 @@ exports.authenticate = function(req, res, next) {
 				const token = jwt.sign({ id: student._id, email: student.email }, jwtKey, 
 					{algorithm: 'HS256', expiresIn: jwtExpirySeconds });
 				res.cookie('token', token, { maxAge: jwtExpirySeconds * 1000,httpOnly: true});
+				res.cookie('studentId', student._id);
 				res.status(200).send({ screen: student.email });
 				req.student=student;
 				next()
@@ -138,7 +139,6 @@ exports.isSignedIn = (req, res) =>{
 
 exports.requiresLogin = function (req, res, next) {
 	const token = req.cookies.token
-	//console.log(token)
 	if (!token) {
 	  return res.send({ screen: 'auth' }).end();
 	}

@@ -5,6 +5,8 @@ module.exports = function(app){
     app.route('/api/courses')
        .get(course.list)
        .post(student.requiresLogin, course.create);
+
+
     
 
     app.route('/api/courses/:courseId')
